@@ -1,0 +1,14 @@
+total 44
+-rwxr--r-- 1 Kagiso_M Kagiso_M    0 Jul 10 20:52 #4-lastline#
+drwxr-xr-x 2 Kagiso_M Kagiso_M 4096 Jul 10 21:28 .
+drwxr-xr-x 6 Kagiso_M Kagiso_M 4096 Jul 10 19:01 ..
+-rwxr-xr-x 1 Kagiso_M Kagiso_M   32 Jul 10 17:38 0-hello_world
+-rwxr--r-- 1 Kagiso_M Kagiso_M   27 Jul 10 19:07 1-confused_smiley
+-rwxr--r-- 1 Kagiso_M Kagiso_M   28 Jul 10 19:11 2-hellofile
+-rwxr--r-- 1 Kagiso_M Kagiso_M   39 Jul 10 19:16 3-twofiles
+-rwxr--r-- 1 Kagiso_M Kagiso_M   41 Jul 10 21:03 4-lastlines
+-rwxr--r-- 1 Kagiso_M Kagiso_M   41 Jul 10 19:43 5-firstlines
+-rwxr--r-- 1 Kagiso_M Kagiso_M   36 Jul 10 19:51 6-third_line
+-rwxr--r-- 1 Kagiso_M Kagiso_M   37 Jul 10 21:28 8-cwd_state
+-rw-r--r-- 1 Kagiso_M Kagiso_M   19 Jul 10 17:49 README.md
+-rw-r--r-- 1 Kagiso_M Kagiso_M    0 Jul 10 21:28 ls_cwd_content
