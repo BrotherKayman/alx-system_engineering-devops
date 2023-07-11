@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -l -f1
+ls -l -f1 | grep -v '*.'
