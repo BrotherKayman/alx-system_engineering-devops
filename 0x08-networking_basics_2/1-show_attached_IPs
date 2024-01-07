@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 # Using 'ip' command to extract IPv4 addresses
 ips=$(ip -4 addr | grep inet | awk '{print $2}' | cut -d '/' -f1)
