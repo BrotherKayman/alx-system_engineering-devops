@@ -2,4 +2,10 @@
 # Displays the PID along with the process name, of 
 #+ processes whose name contains the word "bash".
 
-pgrep bash -l
+pids=$(pgrep -f bash)
+
+echo "PID   Process Name"
+for pid in $pids; do
+    process_name=$(ps -o comm= -p $pid)
+    echo "$pid    $process_name"
+done
