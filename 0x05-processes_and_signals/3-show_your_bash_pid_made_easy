@@ -1,11 +1,24 @@
 #!/usr/bin/env bash
 # Get PIDs and process names of processes containing the word "bash"
 
-pids=$(pgrep -af bash)
+pid_file="/var/run/myscript.pid"
 
-# Display PID and process name
-echo "PID   Process Name"
-for pid in $pids; do
-    process_name=$(ps -o comm= -p "$pid")
-    echo "$pid    $process_name"
+cleanup() {
+    echo "Cleaning up and exiting..."
+    rm -f "$pid_file"
+    exit 0
+}
+
+trap 'cleanup' SIGQUIT SIGTERM
+
+trap 'echo "I hate the kill command"' SIGTERM
+
+trap 'echo "Y U no love me?!"' SIGINT
+
+echo "$$" > "$pid_file"
+
+echo "To infinity and beyond indefinitely"
+
+while true; do
+    sleep 1
 done
