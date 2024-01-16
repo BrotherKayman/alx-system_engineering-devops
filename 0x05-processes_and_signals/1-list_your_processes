@@ -2,4 +2,6 @@
 # Displays a list of currently running processes.
 #   Shows all processes, for all users, including those with no TTY.
 
-ps -auxf
+echo "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND"
+
+ps aux | head -50
