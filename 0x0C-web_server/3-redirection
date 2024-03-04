@@ -5,5 +5,5 @@ sudo apt-get -y update
 sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
 echo "Hello World" | sudo tee /var/www/html/index.html > /dev/null
-sudo sed -i '/^server {/a \    location /redirect_me {\n        return 301 https://www.brotherkayman.tech/;\n    }' /etc/nginx/sites-available/default
+sudo sed -i '/^server {/a \    location /redirect_me {\n        return 301 https://www.youtube.com/;\n    }' /etc/nginx/sites-available/default
 sudo service nginx restart
