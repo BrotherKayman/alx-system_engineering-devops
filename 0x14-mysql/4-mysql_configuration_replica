@@ -1,0 +1,66 @@
+# MySQL Configuration File
+#
+# This file is distributed under the GNU General Public License, version 2.0.
+# For more information, refer to the license documentation included with MySQL.
+#
+# Please copy this file to either "/etc/mysql/my.cnf" for global options
+# or "~/.my.cnf" for user-specific options.
+#
+# You can use all long options supported by MySQL. Use "--help" to list available options
+# and "--print-defaults" to see the options MySQL would understand and use.
+# For detailed explanations, visit: http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+# Global Settings
+
+# These directories contain additional configuration files.
+# !includedir /etc/mysql/conf.d/
+# !includedir /etc/mysql/mysql.conf.d/
+
+# MySQL Database Server Configuration
+
+[mysqld_safe]
+# Set socket and nice values
+socket          = /var/run/mysqld/mysqld.sock
+nice            = 0
+
+[mysqld]
+# Basic Settings
+user            = mysql
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+port            = 3306
+basedir         = /usr
+datadir         = /var/lib/mysql
+tmpdir          = /tmp
+lc-messages-dir = /usr/share/mysql
+skip-external-locking
+
+# Fine Tuning
+key_buffer_size         = 16M
+max_allowed_packet      = 16M
+thread_stack            = 192K
+thread_cache_size       = 8
+myisam-recover-options  = BACKUP
+
+# Query Cache Configuration
+query_cache_limit       = 1M
+query_cache_size        = 16M
+
+# Logging and Replication
+log_error = /var/log/mysql/error.log
+server-id               = 2   # Modified server ID
+log_bin                 = /var/log/mysql/mysql-bin.log
+expire_logs_days        = 10
+max_binlog_size         = 100M
+binlog_do_db            = tyrell_corp
+
+# InnoDB Configuration
+# InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
+# Refer to the manual for more InnoDB-related options.
+
+# Security Features
+# For chroot setup, refer to the manual.
+# SSL Certificate Generation: OpenSSL GUI "tinyca" is recommended.
+# ssl-ca=/etc/mysql/cacert.pem
+# ssl-cert=/etc/mysql/server-cert.pem
+# ssl-key=/etc/mysql/server-key.pem
