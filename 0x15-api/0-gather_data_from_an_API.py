@@ -3,11 +3,13 @@
 import requests
 import sys
 
+
 def fetch_user_data(user_id):
     endpoint = "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
     response = requests.get(endpoint)
     response.raise_for_status()
     return response.json()
+
 
 def fetch_user_todos(user_id):
     endpoint = "https://jsonplaceholder.typicode.com/todos"
@@ -15,6 +17,7 @@ def fetch_user_todos(user_id):
     response = requests.get(endpoint, params=params)
     response.raise_for_status()
     return response.json()
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -28,10 +31,12 @@ if __name__ == '__main__':
         user_name = user_data['name']
         todos = fetch_user_todos(user_id)
 
-        completed_tasks = [task['title'] for task in todos if task['completed']]
+        completed_tasks = [task['title']
+                           for task in todos if task['completed']]
         total_tasks = len(todos)
 
-        print(f"Employee {user_name} has completed {len(completed_tasks)} out of {total_tasks} tasks:")
+        print(
+            f"Employee {user_name} has completed {len(completed_tasks)} out of {total_tasks} tasks:")
         for task in completed_tasks:
             print(f"\t{task}")
     except requests.RequestException as e:
