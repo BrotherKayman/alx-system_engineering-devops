@@ -1,5 +1,8 @@
 **Postmortem: My Debugging Project Outage**
 
+![meme](meme.jpg)
+
+
 **Issue Summary:**
 - **Duration:** The outage spanned from midnight to 3:00 AM (South African Standard Time).
 - **Impact:** The outage affected a Wordpress website hosted on a LAMP stack, resulting in complete downtime. All users were unable to access the website during this period.
