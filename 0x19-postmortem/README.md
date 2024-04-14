@@ -1,6 +1,6 @@
 **Postmortem: My Debugging Project Outage**
 
-![meme](meme.jpg)
+![meme](meme.jpeg)
 
 
 **Issue Summary:**
