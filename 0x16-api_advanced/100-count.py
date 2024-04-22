@@ -2,7 +2,7 @@
 """ Module for a function that queries the Reddit API recursively."""
 
 
-from requests import get
+import requests
 
 
 def count_words(subreddit, word_list, after='', word_dict={}):
@@ -12,38 +12,39 @@ def count_words(subreddit, word_list, after='', word_dict={}):
     Javascript should count as javascript, but java should not).
     If no posts match or the subreddit is invalid, it prints nothing.
     """
-    if not count:
-        key_words = {word.lower(): 0 for word in word_list}
-        word_list = [word.lower() for word in word_list]
-        count = {word.lower(): word_list.count(word.lower())
-                 for word in word_list}
 
-    url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    params = {'after': after, 'limit': 100}
-    headers = {'user-agent': 'my-app/0.0.1'}
+    if not word_dict:
+        for word in word_list:
+            if word.lower() not in word_dict:
+                word_dict[word.lower()] = 0
 
-    req = get(url, params=params, headers=headers, allow_redirects=False)
-    #  get data if request was successful
-    if req.status_code == 200:
-        data = req.json().get('data')
-        after = data.get('after')
-        posts = data.get('children')
+    if after is None:
+        wordict = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
+        for word in wordict:
+            if word[1]:
+                print('{}: {}'.format(word[0], word[1]))
+        return None
 
-        #  get count of key words in each title
-        for post in posts:
-            title = post.get('data').get('title').lower()
-            words = title.split()
-            for word in key_words.keys():
-                key_words[word] += words.count(word)
+    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
+    header = {'user-agent': 'redquery'}
+    parameters = {'limit': 100, 'after': after}
+    response = requests.get(url, headers=header, params=parameters,
+                            allow_redirects=False)
 
-        #  call recursive function if there's more data
-        if after:
-            return count_words(subreddit, word_list, key_words, count, after)
-        else:
-            for key in key_words.keys():
-                key_words[key] *= count[key]
-            key_words = sorted(key_words.items(),
-                               key=lambda item: (-item[1], item[0]))
-            for item in key_words:
-                if item[1] > 0:
-                    print("{}: {}".format(item[0], item[1]))
+    if response.status_code != 200:
+        return None
+
+    try:
+        hot = response.json()['data']['children']
+        aft = response.json()['data']['after']
+        for post in hot:
+            title = post['data']['title']
+            lower = [word.lower() for word in title.split(' ')]
+
+            for word in word_dict.keys():
+                word_dict[word] += lower.count(word)
+
+    except Exception:
+        return None
+
+    count_words(subreddit, word_list, aft, word_dict)
