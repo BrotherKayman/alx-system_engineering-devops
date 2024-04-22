@@ -1,53 +1,38 @@
 #!/usr/bin/python3
-"""Exports employee to-do list data to CSV format."""
-import requests
-import csv
-import sys
+""" Script to get TODO list progress
+    by employee ID and save it to
+    CSV file
+"""
+from csv import writer, QUOTE_ALL
+from requests import get
+from sys import argv
 
 
-def fetch_user_data(user_id):
-    endpoint = f"https://jsonplaceholder.typicode.com/users/{user_id}"
-    response = requests.get(endpoint)
-    response.raise_for_status()
-    return response.json()
+def todo_csv(emp_id):
+    """ Send request for employee's
+        to do list to API
+    """
+    file_name = '{}.csv'.format(emp_id)
+    url_user = 'https://jsonplaceholder.typicode.com/users/'
+    url_todo = 'https://jsonplaceholder.typicode.com/todos/'
 
+    # check if user exists
+    user = get(url_user + emp_id).json().get('username')
 
-def fetch_user_todos(user_id):
-    endpoint = "https://jsonplaceholder.typicode.com/todos"
-    params = {'userId': user_id}
-    response = requests.get(endpoint, params=params)
-    response.raise_for_status()
-    return response.json()
-
-
-def export_to_csv(user_id, user_name, completed_tasks):
-    csv_filename = f"{user_id}.csv"
-    with open(csv_filename, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(
-            ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
-        writer.writerows(completed_tasks)
+    if user:
+        params = {'userId': emp_id}
+        #  get all tasks
+        tasks = get(url_todo, params=params).json()
+        if tasks:
+            #  open file in write mode and use csv writer to
+            #  writer content
+            with open(file_name, 'w', newline='', encoding='utf8') as f:
+                task_writer = writer(f, quoting=QUOTE_ALL)
+                for task in tasks:
+                    task_writer.writerow([emp_id, user, task.get('completed'),
+                                         task.get('title')])
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        sys.exit(1)
-
-    user_id = sys.argv[1]
-
-    try:
-        user_data = fetch_user_data(user_id)
-        user_name = user_data['name']
-        todos = fetch_user_todos(user_id)
-
-        completed_tasks = [
-            (user_id,
-             user_name,
-             task['completed'],
-                task['title']) for task in todos]
-
-        export_to_csv(user_id, user_name, completed_tasks)
-    except requests.RequestException as e:
-        sys.exit(1)
-    except KeyError:
-        sys.exit(1)
+    if len(argv) > 1:
+        todo_csv(argv[1])
